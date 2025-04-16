@@ -32,26 +32,25 @@ public class PessoaService {
     }
 
     public Pessoa findPessoa(long id) {
-        Pessoa pessoa = this.pessoaRepository.findById(id).orElseThrow();
-        if (pessoa != null) {
-            return pessoa;
-        }
-        return null;
+        Pessoa pessoa = this.pessoaRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException("erro ao encontrar um trabalho"));
+        return pessoa;
     }
 
-    public Pessoa update(long id, PessoaDTO pessoa) {
+    public PessoaDTO update(long id, PessoaDTO pessoa) {
         Pessoa encontrarPessoa = this.findPessoa(id);
         if (encontrarPessoa == null) {
-            throw new EntityNotFoundException("erro ao encontrar a pessoa");
+            return null;
         }
-        modelMapper.map(encontrarPessoa, pessoa);
-        return this.pessoaRepository.save(encontrarPessoa);
+        modelMapper.map(pessoa, encontrarPessoa);
+        encontrarPessoa = pessoaRepository.save(encontrarPessoa);
+        return modelMapper.map(encontrarPessoa, PessoaDTO.class);
     }
 
     public PessoaDTO delete(long id) {
         Pessoa encontrarPessoa = this.findPessoa(id);
         if (encontrarPessoa == null) {
-            throw new EntityNotFoundException("erro ao encontrar a pessoa");
+            return null;
         }
         this.pessoaRepository.deleteById(id);
         return modelMapper.map(encontrarPessoa, PessoaDTO.class);

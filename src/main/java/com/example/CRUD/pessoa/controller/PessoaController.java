@@ -6,6 +6,8 @@ import com.example.CRUD.pessoa.service.PessoaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/pessoa")
 public class PessoaController {
@@ -18,12 +20,17 @@ public class PessoaController {
     }
 
     @PutMapping(value = "/atualizar/{id}")
-    public Pessoa update(@RequestBody PessoaDTO pessoa, @PathVariable Long id ) {
+    public PessoaDTO update(@RequestBody PessoaDTO pessoa, @PathVariable Long id ) {
         return this.pessoaService.update(id, pessoa);
     }
 
     @DeleteMapping(value = "/delete/{id}")
     public PessoaDTO delete(@PathVariable Long id) {
         return this.pessoaService.delete(id);
+    }
+
+    @GetMapping()
+    public List<PessoaDTO> findAll() {
+        return this.pessoaService.findAll();
     }
 }

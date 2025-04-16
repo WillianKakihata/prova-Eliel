@@ -1,5 +1,6 @@
 package com.example.CRUD.pessoa.model;
 
+import com.example.CRUD.trabalho.model.Trabalho;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,4 +21,5 @@ public class Pessoa {
 
     @Column(name = "IDADE")
     private int idade;
+
 }
